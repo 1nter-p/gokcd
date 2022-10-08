@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-type XKCD struct {
+type Comic struct {
 	Number     int    `json:"num"`
 	Title      string `json:"title"`
 	SafeTitle  string `json:"safe_title"`
@@ -23,8 +23,8 @@ type XKCD struct {
 	Day        string `json:"day"`
 }
 
-// FromNum creates a new XKCD from the given comic number/ID.
-func FromNum(num int) XKCD {
+// FromNum creates a new Comic from the given comic number/ID.
+func ComicFromNum(num int) Comic {
 	c := http.Client{Timeout: time.Second * 2}
 	
 	// Create the request
@@ -50,12 +50,12 @@ func FromNum(num int) XKCD {
 		log.Fatal(err)
 	}
 	
-	// Unmarshal the JSON response to an XKCD object
-	var xkcd XKCD
-	err = json.Unmarshal(body, &xkcd)
+	// Unmarshal the JSON response to a Comic object
+	var comic Comic
+	err = json.Unmarshal(body, &comic)
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	return xkcd
+	return comic
 }
