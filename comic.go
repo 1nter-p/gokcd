@@ -3,7 +3,6 @@ package xkcd
 import (
 	"encoding/json"
 	"io"
-	"log"
 	"net/http"
 	"strconv"
 	"time"
@@ -24,19 +23,19 @@ type Comic struct {
 }
 
 // ComicFromURL creates a new Comic from the given comic URL (info.0.json).
-func ComicFromURL(url string) Comic {
+func ComicFromURL(url string) (Comic, error) {
 	c := http.Client{Timeout: time.Second * 2}
 	
 	// Create the request
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		log.Fatal(err)
+		return Comic{}, err
 	}
 	
 	// Perform the request and save response to res
 	res, err := c.Do(req)
 	if err != nil {
-		log.Fatal(err)
+		return Comic{}, err
 	}
 	
 	// Close the body if it exists
@@ -47,25 +46,25 @@ func ComicFromURL(url string) Comic {
 	// Read the body
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		log.Fatal(err)
+		return Comic{}, err
 	}
 	
 	// Unmarshal the JSON response to a Comic object
 	var comic Comic
 	err = json.Unmarshal(body, &comic)
 	if err != nil {
-		log.Fatal(err)
+		return Comic{}, err
 	}
 
-	return comic
+	return comic, nil
 }
 
 // ComicFromNum creates a new Comic from the given comic number/ID.
-func ComicFromNum(num int) Comic {
+func ComicFromNum(num int) (Comic, error) {
 	return ComicFromURL("https://xkcd.com/" + strconv.Itoa(num) + "/info.0.json")
 }
 
 // LatestComic returns the latest comic as a Comic object.
-func LatestComic() Comic {
+func LatestComic() (Comic, error) {
 	return ComicFromURL("https://xkcd.com/info.0.json")
 }
