@@ -1,15 +1,15 @@
-package gokcd_test
+package xkcd_test
 
 import (
 	"testing"
 
-	"github.com/1nter-p/gokcd"
+	"github.com/1nter-p/xkcd"
 
 	"github.com/stretchr/testify/assert"
 )
 
 func TestBasic(t *testing.T) {
-	c := gokcd.ComicFromNum(69)
+	c := xkcd.ComicFromNum(69)
 
 	assert.Equal(t, c.Number, 69)
 	assert.Equal(t, c.Title, "Pillow Talk")

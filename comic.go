@@ -1,4 +1,4 @@
-package gokcd
+package xkcd
 
 import (
 	"encoding/json"
