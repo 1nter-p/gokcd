@@ -3,6 +3,7 @@ package xkcd
 import (
 	"encoding/json"
 	"io"
+	"math/rand"
 	"net/http"
 	"strconv"
 	"time"
@@ -67,4 +68,24 @@ func ComicFromNum(num int) (Comic, error) {
 // LatestComic returns the latest comic as a Comic object.
 func LatestComic() (Comic, error) {
 	return ComicFromURL("https://xkcd.com/info.0.json")
+}
+
+// RandomComic returns a random comic as a Comic object.
+func RandomComic() (Comic, error) {
+	// Grab the latest comic to find our upper boundary
+	l, err := LatestComic()
+	if err != nil {
+		return Comic{}, err
+	}
+
+	// Select a random comic number
+	n := rand.Intn(l.Number - 1) + 1
+
+	// Get the comic
+	c, err := ComicFromNum(n)
+	if err != nil {
+		return Comic{}, err
+	}
+
+	return c, nil
 }

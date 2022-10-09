@@ -19,3 +19,10 @@ func TestLatest(t *testing.T) {
 		t.Fail()
 	}
 }
+
+func TestRandom(t *testing.T) {
+	_, err := xkcd.RandomComic()
+	if err != nil {
+		t.Fail()
+	}
+}
