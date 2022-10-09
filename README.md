@@ -5,7 +5,12 @@
 ```go
 package main
 
-import "github.com/1nter-p/xkcd"
+import (
+	"fmt"
+	"log"
+
+	"github.com/1nter-p/xkcd"
+)
 
 func main() {
 	// Get the comic with number 327 (Exploits of a Mom/"Bobby Tables")
