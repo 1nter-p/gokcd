@@ -23,12 +23,12 @@ type Comic struct {
 	Day        string `json:"day"`
 }
 
-// FromNum creates a new Comic from the given comic number/ID.
-func ComicFromNum(num int) Comic {
+// ComicFromURL creates a new Comic from the given comic URL (info.0.json).
+func ComicFromURL(url string) Comic {
 	c := http.Client{Timeout: time.Second * 2}
 	
 	// Create the request
-	req, err := http.NewRequest("GET", "https://xkcd.com/" + strconv.Itoa(num) + "/info.0.json", nil)
+	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -58,4 +58,14 @@ func ComicFromNum(num int) Comic {
 	}
 
 	return comic
+}
+
+// ComicFromNum creates a new Comic from the given comic number/ID.
+func ComicFromNum(num int) Comic {
+	return ComicFromURL("https://xkcd.com/" + strconv.Itoa(num) + "/info.0.json")
+}
+
+// LatestComic returns the latest comic as a Comic object.
+func LatestComic() Comic {
+	return ComicFromURL("https://xkcd.com/info.0.json")
 }
